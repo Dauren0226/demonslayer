@@ -1,38 +1,143 @@
-.App {
+body {
+  background-image: url("../public/img/main.jpg");
+  background-size: cover;
+  background-position: center;
+  color: white;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+header {
+  display: flex; /* Use Flexbox for layout */
+  align-items: center; /* Vertically center items */
+  width: 100vw; /* Ensure the header spans the full width of the viewport */
+  height: 50%;
+  position: fixed; /* Fix the header at the top */
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.7); /* Semi-transparent background for better visibility */
+  transition: transform 1s ease; /* Smooth transition for hiding/showing */
+  z-index: 1000; /* Ensure it's above other content */
+  box-shadow: 0 0 20px rgba(251, 250, 250, 0.7); /* Glow effect */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.video-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw; /* Full viewport width */
+  height: 100%; /* Full height of the header */
+  overflow: hidden; /* Hide any overflow */
+  z-index: -1; /* Send it to the background */
+}
+
+video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vw; /* Stretch to full viewport width */
+  height: auto; /* Maintain aspect ratio */
+  transform: translate(-50%, -50%); /* Center the video */
+}
+
+.header-content {
+  position: relative; /* Ensure content appears above the video */
+  z-index: 1;
+  text-align: center; /* Center content */
+  color: white; /* Set text color */
+  padding: 20px; /* Add padding */
+}
+
+.header.hidden {
+  transform: translateY(-100%); /* Hide the header */
+}
+
+.header.visible {
+  transform: translateY(0); /* Show the header */
+}
+
+/* Image takes 15% of the viewport width */
+header img {
+  margin-left: 1%;
+  width: 15vw; /* 15% of the viewport width */
+  max-width: 100%; /* Ensure it doesn't exceed its container */
+}
+
+/* Flex-grow allows .text to take up remaining space */
+header .text {
+  flex-grow: 1; /* Take up the remaining space */
+  margin-right: 5%; /* Add space to the right */
+  margin-left: 5%; /* Add space to the left */
+  background-color: rgba(30, 22, 13, 0.656);
+  border: 5px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Text styling */
+header .text p {
+  font-weight: bold;
+  color: rgba(255, 255, 255, 1);
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.Столпы {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Adjust columns as needed */
+  grid-template-rows: repeat(auto-fit, minmax(100px, 1fr)); /* Adjust rows as needed */
+  place-items: center; /* Centers items both horizontally and vertically */
+  height: 100%;
+  width: 70vw;
+  margin-top: 25vw;
+}
+
+.Столпы nav {
+  margin-left: 10%;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  background-image: url("../public/img/Black.png");
+  background-size: contain;
+  box-shadow: 0 0 5px rgba(251, 250, 250, 0.8); /* Glow effect */  
+  gap: 10px;
+}
+
+.Столпы img {
+  margin-top: 10%;
+  display: inline-block;
+  width: 70%;
+  height: 100%;
+}
+
+.DescriptionSpan {
+  position: fixed;
+  font-size: large;
+}
+
+@media (min-width: 1024px) {
+  .content {
+      grid-template-columns: 1fr;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+@media (max-width: 600px) {
+  header {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    text-align: center; /* Center text horizontally */
   }
-  to {
-    transform: rotate(360deg);
+
+  header img {
+    width: 80vw; /* Adjust width for smaller viewports */
+    margin-bottom: 10px; /* Add space below the image */
+  }
+
+  header .text {
+    margin: 0; /* Remove side margins in vertical layout */
+    width: 100%; /* Full width to use available space */
   }
 }

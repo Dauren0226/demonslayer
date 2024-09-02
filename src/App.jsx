@@ -19,43 +19,58 @@ const cardData = [
   { name: "Тенген Узуй", alt: "Тенген Узуй", src: "img/Тенген.PNG", className: "Тенген" },
 ];
 
-const Card =({ className, alt, src, name, onClick }) => (
-  <nav  onClick={() => onClick(name)} className={`pointer ${className}`}>
-  <img alt={alt} src={src} />
-  <p>{name}</p>
-  </nav>
-)
+const Card = ({ className, alt, src, name, onClick, description }) => {
+  const [showDescription, setShowDescription] = useState(false);
+  
+  return (
+    <div>
+      <nav
+        style={{
+          backgroundImage: `url(${src})`,
+          backgroundPosition: 'center'
+        }}
+        onClick={() => setShowDescription(!showDescription)} className={`pointer ${className} ${showDescription ? "Card-show_description" : ""}`}>
+        {/* <img alt={alt} src={src} /> */}
+        <p>{name}</p>
+      </nav>
+
+      <div className={`DescriptionSpan ${showDescription ? "Card-show_description" : ""}`}>
+        <p>{description}</p>
+      </div>
+    </div>
+  )
+}
 
 Card.propTypes = {
   className: propTypes.string.isRequired,
   alt: propTypes.string.isRequired,
 }
 
+const descriptions = {
+  'Гию Томиока': 'Гию Томиока - Ветеран охотник на демонов, известный своей мастерством и строгим поведением.',
+  'Мицури Канроджи': 'Мицури Канроджи - Охотник на демонов с выдающимися навыками и сильным духом.',
+  'Обанай Бирдене': 'Обанай Бирдене - Храбрый и целеустремленный охотник, известный своей решимостью.',
+  'Санеми Шинадзугава': 'Санеми Шинадзугава - Мощный и упрямый охотник на демонов, известный своей силой.',
+  'Гёмей Химеджима': 'Гёмей Химеджима - Один из старейших и мудрых охотников на демонов.',
+  'Муичиро Токито': 'Муичиро Токито - Молодой, но очень талантливый охотник на демонов.',
+  'Шинобу Кочо': 'Шинобу Кочо - Известная своим умом и изяществом, она также выдающийся охотник на демонов.',
+  'Кёджуро Ренгоку': 'Кёджуро Ренгоку - Обладает выдающейся силой и страстью к защите людей.',
+  'Тенген Узуй': 'Тенген Узуй - Экстравагантный и мощный охотник, известный своей яркой личностью.',
+};
+
+
 function App() {
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
   const [lastScrollTop, setLastScrollTop] = useState(0);
-  const [description, setDescription] = useState(text);
+  // const [description, setDescription] = useState(text);
 
-  const showMessage = (name) => {
-    // Define descriptions for each card
-    const descriptions = {
-      'Гию Томиока': 'Гию Томиока - Ветеран охотник на демонов, известный своей мастерством и строгим поведением.',
-      'Мицури Канроджи': 'Мицури Канроджи - Охотник на демонов с выдающимися навыками и сильным духом.',
-      'Обанай Бирдене': 'Обанай Бирдене - Храбрый и целеустремленный охотник, известный своей решимостью.',
-      'Санеми Шинадзугава': 'Санеми Шинадзугава - Мощный и упрямый охотник на демонов, известный своей силой.',
-      'Гёмей Химеджима': 'Гёмей Химеджима - Один из старейших и мудрых охотников на демонов.',
-      'Муичиро Токито': 'Муичиро Токито - Молодой, но очень талантливый охотник на демонов.',
-      'Шинобу Кочо': 'Шинобу Кочо - Известная своим умом и изяществом, она также выдающийся охотник на демонов.',
-      'Кёджуро Ренгоку': 'Кёджуро Ренгоку - Обладает выдающейся силой и страстью к защите людей.',
-      'Тенген Узуй': 'Тенген Узуй - Экстравагантный и мощный охотник, известный своей яркой личностью.',
-    };
-
-    setDescription(descriptions[name] || 'Описание недоступно.');
-  };
+  // const showMessage = (name) => {
+  //   setDescription(descriptions[name] || 'Описание недоступно.');
+  // };
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const currentScrollTop = window.scrollX || document.documentElement.scrollTop;
       const viewportHeight = window.innerHeight;
       const threshold = viewportHeight * 0.1; // 20% of viewport height
 
@@ -76,16 +91,16 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [lastScrollTop]);
 
-  return ( 
+  return (
     <>
       <header className={`header ${isHeaderVisible ? 'visible' : 'hidden'}`}>
-      <div className="video-background">
+        <div className="video-background">
           <video autoPlay muted loop id="myVideo">
             <source src="img/main.background.mp4" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>
-          <img src="img/main4.png" alt="background"/>
+        <img src="img/main4.png" alt="background" />
         <nav className="text">
           <p>
             <strong>
@@ -95,21 +110,22 @@ function App() {
           </p>
         </nav>
       </header>
-        <div className="Столпы">
-          {cardData.map((card, index) => (
-            <Card
-              key={index}
-              name={card.name}
-              alt={card.alt}
-              src={card.src}
-              className={card.className}
-              onClick={showMessage}
-            />
+      <div className="Столпы">
+        {cardData.map((card, index) => (
+          <Card
+            key={index}
+            name={card.name}
+            alt={card.alt}
+            src={card.src}
+            className={card.className}
+            description={descriptions[card.name]}
+            // onClick={showMessage}
+          />
         ))}
-        </div>
-      <div className='DescriptionSpan'>
-          <p>{description}</p>
       </div>
+      {/* <div className='DescriptionSpan'>
+        <p>{description}</p>
+      </div> */}
     </>
   );
 }
